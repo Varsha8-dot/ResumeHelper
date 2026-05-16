@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-const API = process.env.REACT_APP_API_URL || 'https://resumehelper1.onrender.com/api';
+const API = 'https://resumehelper1.onrender.com/api';
 const AuthContext = createContext(null);
 
 // Axios instance with interceptors
