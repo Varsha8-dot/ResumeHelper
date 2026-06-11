@@ -1,6 +1,6 @@
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
-const  CloudinaryStorage  = require('multer-storage-cloudinary');
+const CloudinaryStorage = require('multer-storage-cloudinary');
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -10,11 +10,9 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
   cloudinary,
-  params: {
-    folder: 'resumehelper/resumes',
-    allowed_formats: ['pdf', 'docx', 'doc'],
-    resource_type: 'raw',
-  },
+  folder: 'resumehelper/resumes',
+  allowedFormats: ['pdf', 'docx', 'doc'],
+  resource_type: 'raw',
 });
 
 const upload = multer({
