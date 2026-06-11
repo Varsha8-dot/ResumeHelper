@@ -31,11 +31,11 @@ router.post('/register', async (req, res) => {
     await user.save({ validateBeforeSave: false });
 
     res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000
-    });
+  httpOnly: true,
+  secure: true,
+  sameSite: 'none',     // ← allows Vercel → Render cross-site
+  maxAge: 7 * 24 * 60 * 60 * 1000
+});
 
     res.status(201).json({
       message: 'Account created successfully',
@@ -64,12 +64,12 @@ router.post('/login', async (req, res) => {
     user.refreshToken = refreshToken;
     await user.save({ validateBeforeSave: false });
 
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000
-    });
+   res.cookie('refreshToken', refreshToken, {
+  httpOnly: true,
+  secure: true,
+  sameSite: 'none',     // ← allows Vercel → Render cross-site
+  maxAge: 7 * 24 * 60 * 60 * 1000
+});
 
     res.json({
       message: 'Login successful',
