@@ -1,6 +1,6 @@
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
-const CloudinaryStorage = require('multer-storage-cloudinary');
+const { CloudinaryStorage } = require('multer-storage-cloudinary'); //  destructure it
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -9,17 +9,23 @@ cloudinary.config({
 });
 
 const storage = new CloudinaryStorage({
-  cloudinary,
-  folder: 'resumehelper/resumes',
-  allowedFormats: ['pdf', 'docx', 'doc'],
-  resource_type: 'raw',
+  cloudinary: cloudinary, //  pass it explicitly like this
+  params: {              // options go inside 'params', not at top level
+    folder: 'resumehelper/resumes',
+    allowed_formats: ['pdf', 'docx', 'doc'], // 'allowed_formats' not 'allowedFormats'
+    resource_type: 'raw',
+  },
 });
 
 const upload = multer({
   storage,
   limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
-    const allowed = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword'];
+    const allowed = [
+      'application/pdf',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/msword'
+    ];
     if (allowed.includes(file.mimetype)) {
       cb(null, true);
     } else {
